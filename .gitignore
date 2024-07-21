@@ -1,0 +1,5 @@
+/.venv
+/build
+/enviar_email.py
+/pesquisaPrecos.spec
+/__pycache__
