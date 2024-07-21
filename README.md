@@ -18,6 +18,7 @@ Este é um projeto em Python que realiza a pesquisa de preços de produtos no Go
 3. Os dados coletados (nomes dos produtos, preços e links) são armazenados em um DataFrame.
 4. Uma tabela HTML é gerada a partir do DataFrame, destacando o produto com o menor preço.
 5. A tabela é enviada por e-mail para o endereço especificado pelo usuário utilizando o [smtplib](https://docs.python.org/3/library/smtplib.html).
+
 Obs: o script que contém a função de enviar o e-mail não foi incluído no repositório por motivos de segurança
 
 ## Executando
