@@ -27,5 +27,3 @@ Para executar este projeto, tudo o que você precisa fazer é baixar a pasta `di
 O executável foi feito usando o [PyInstaller](https://pyinstaller.org/en/stable/).
 
 É necessário ter o Google Chrome instalado no seu computador para que o Selenium possa automatizar o navegador.
-
-Clique [aqui](https://github.com/Numl8ck/pesquisa_preco/raw/main/dist/pesquisaPrecos.exe) para instalar o arquivo executável.
