@@ -9,7 +9,7 @@ Este é um projeto em Python que realiza a pesquisa de preços de produtos no Go
 - Pesquisa de produtos no Google Shopping.
 - Filtragem de resultados com base em preços mínimos e máximos.
 - Geração de uma tabela HTML com os resultados.
-- Envio da tabela por e-mail para o usuário.
+- Envio da tabela por e-mail para o usuário com o menor preço destacado.
 
 ## Como Funciona
 
