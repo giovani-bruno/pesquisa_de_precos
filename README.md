@@ -23,7 +23,7 @@ Obs: o script que contém a função de enviar o e-mail não foi incluído no re
 
 ## Executando
 
-Para executar este projeto, tudo o que você precisa fazer é baixar a pasta `dist` e executar o arquivo `pesquisaPreco.exe`. Preencha as informações solicitadas e aguarde o recebimento do e-mail.
+Para executar este projeto, tudo o que você precisa fazer é baixar a pasta `dist` e executar o arquivo `pesquisaPrecos.exe`. Preencha as informações solicitadas e aguarde o recebimento do e-mail.
 O executável foi feito usando o [PyInstaller](https://pyinstaller.org/en/stable/).
 
 É necessário ter o Google Chrome instalado no seu computador para que o Selenium possa automatizar o navegador.
