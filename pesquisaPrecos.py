@@ -5,40 +5,17 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 import time
 from enviar_email import enviar_email
-
-# Função para receber as informações do produto do usuário
-def obter_informações():
-  # Solicita ao usuário o produto a ser pesquisado
-  produto = input("Por qual produto você deseja procurar?\n")
-
-  # Solicita o preço mínimo e máximo, garantindo que sejam números inteiros
-  while True:
-    try:
-      preco_min = int(input("Qual o preço minímo?\n"))
-      preco_max = int(input("Qual o preço máximo?\n"))
-      break
-    except ValueError:
-      print("Por favor, insira números inteiros.")
-      time.sleep(2)
-  
-  # Solicita o e-mail do usuário
-  while True:
-    email_usuario = input("Por fim, insira seu e-mail para receber o resultado:\n")
-    if "@" not in email_usuario or ".com" not in email_usuario or "giovainic" in email_usuario: # não pode ser o meu e-mail, para que eu não receba e-mails indesejados
-      print("E-mail inválido.")
-      time.sleep(2)
-    else:
-      break
-  
-  # Confirma os dados inseridos pelo usuário
-  print(f"Será pesquisado por '{produto}', com preços entre R${preco_min} e R${preco_max}.\nE-mail informado: {email_usuario}")
-  return produto, preco_min, preco_max, email_usuario
+from janela.janela import criar_janela
+from tkinter import messagebox
 
 # Função para iniciar o navegador (Chrome)
 def iniciar_navegador():
   # Configura o serviço do ChromeDriver e inicia o navegador
-  servico = Service(ChromeDriverManager().install())
-  nav = webdriver.Chrome(service=servico)
+  try:
+    servico = Service(ChromeDriverManager().install())
+    nav = webdriver.Chrome(service=servico)
+  except:
+    messagebox.showerror(title="Erro", message="O chrome não está instalado no seu computador.")
   return nav
 
 # Função para realizar a pesquisa do produto no Google Shopping
@@ -66,6 +43,7 @@ def realizar_pesquisa(nav, produto, preco_min, preco_max):
     campos = nav.find_elements(By.CLASS_NAME, "baeIxf")
     campos[0].send_keys(preco_min)
     campos[1].send_keys(preco_max)
+    time.sleep(1)
     nav.find_element(By.CLASS_NAME, "sh-dr__prs").click()
     
     # Coleta os resultados da pesquisa
@@ -84,10 +62,7 @@ def realizar_pesquisa(nav, produto, preco_min, preco_max):
       links.append(link)
   except Exception as e:
     # Trata possíveis erros na pesquisa
-    print(f"Erro na pesquisa: {e}")
-    print("Por favor, tente novamente")
-    time.sleep(5)
-
+    messagebox.showerror(title="Erro", message=f"Erro na pesquisa. Por favor, tente novamente.\n\n{e}")
   return produtos, precos, links
 
 # Função para gerar a tabela de resultados em formato HTML
@@ -113,15 +88,19 @@ def gerar_tabela(produtos, precos, links):
   else:
     # Retorna None se houver inconsistência nos resultados
     return None
-  
-produto, preco_min, preco_max, email_usuario = obter_informações() # Obtém as informações do usuário
-nav = iniciar_navegador() # Inicia o navegador
-produtos, precos, links = realizar_pesquisa(nav, produto, preco_min, preco_max) # Realiza a pesquisa do produto
-nav.quit() # Encerra o navegador
-tabela_html = gerar_tabela(produtos, precos, links) # Gera a tabela de resultados em HTML
 
-# Envia o e-mail com os resultados ou exibe uma mensagem de erro
-if tabela_html: 
-  enviar_email(email_usuario, tabela_html) # Esta função está em um arquivo separado por questões de segurança
-else:
-  print("Erro ao gerar tabela, tente novamente.")
+try:
+  produto, preco_min, preco_max, email_usuario = criar_janela() # Obtém as informações do usuário
+  if produto:
+    nav = iniciar_navegador() # Inicia o navegador
+    produtos, precos, links = realizar_pesquisa(nav, produto, preco_min, preco_max) # Realiza a pesquisa do produto
+    nav.quit() # Encerra o navegador
+    tabela_html = gerar_tabela(produtos, precos, links) # Gera a tabela de resultados em HTML
+
+    # Envia o e-mail com os resultados ou exibe uma mensagem de erro
+    if tabela_html: 
+      enviar_email(email_usuario, tabela_html) # Esta função está em um arquivo separado por questões de segurança
+    else:
+      messagebox.showerror(title="Erro", message="Erro ao gerar tabela. Por favor, tente novamente.")
+except TypeError: # Significa que o usuário fechou a janela, ou seja, desistiu
+  pass
