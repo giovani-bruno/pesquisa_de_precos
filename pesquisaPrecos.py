@@ -14,9 +14,9 @@ def iniciar_navegador():
   try:
     servico = Service(ChromeDriverManager().install())
     nav = webdriver.Chrome(service=servico)
+    return nav
   except:
     messagebox.showerror(title="Erro", message="O chrome não está instalado no seu computador.")
-  return nav
 
 # Função para realizar a pesquisa do produto no Google Shopping
 def realizar_pesquisa(nav, produto, preco_min, preco_max):
@@ -91,16 +91,15 @@ def gerar_tabela(produtos, precos, links):
 
 try:
   produto, preco_min, preco_max, email_usuario = criar_janela() # Obtém as informações do usuário
-  if produto:
-    nav = iniciar_navegador() # Inicia o navegador
-    produtos, precos, links = realizar_pesquisa(nav, produto, preco_min, preco_max) # Realiza a pesquisa do produto
-    nav.quit() # Encerra o navegador
-    tabela_html = gerar_tabela(produtos, precos, links) # Gera a tabela de resultados em HTML
+  nav = iniciar_navegador() # Inicia o navegador
+  produtos, precos, links = realizar_pesquisa(nav, produto, preco_min, preco_max) # Realiza a pesquisa do produto
+  nav.quit() # Encerra o navegador
+  tabela_html = gerar_tabela(produtos, precos, links) # Gera a tabela de resultados em HTML
 
-    # Envia o e-mail com os resultados ou exibe uma mensagem de erro
-    if tabela_html: 
-      enviar_email(email_usuario, tabela_html) # Esta função está em um arquivo separado por questões de segurança
-    else:
-      messagebox.showerror(title="Erro", message="Erro ao gerar tabela. Por favor, tente novamente.")
+  # Envia o e-mail com os resultados ou exibe uma mensagem de erro
+  if tabela_html: 
+    enviar_email(email_usuario, tabela_html) # Esta função está em um arquivo separado por questões de segurança
+  else:
+    messagebox.showerror(title="Erro", message="Erro ao gerar tabela. Por favor, tente novamente.")
 except TypeError: # Significa que o usuário fechou a janela, ou seja, desistiu
   pass
