@@ -4,8 +4,11 @@
 
 Este é um projeto em Python que realiza a pesquisa de preços de produtos no Google Shopping, coleta informações sobre os produtos e envia os resultados por e-mail. Ele permite que os usuários especifiquem o produto, os preços mínimo e máximo, e o seu endereço de e-mail para receber os resultados. O script utiliza Selenium para automação do navegador e coleta de dados.
 
+Além disso, foi desenvolvida uma interface gráfica para o projeto utilizando Tkinter, com o design visual criado no Figma e Proxlight Design, proporcionando uma experiência de usuário mais amigável e profissional.
+
 ## Funcionalidades
 
+- Interface gráfica amigável para inserção de dados
 - Pesquisa de produtos no Google Shopping.
 - Filtragem de resultados com base em preços mínimos e máximos.
 - Geração de uma tabela HTML com os resultados.
